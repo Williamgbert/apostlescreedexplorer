@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostles' Creed Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        body {
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .clause-card {
+            transition: all 0.3s ease;
+        }
+        
+        .clause-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .section-content.expanded {
+            max-height: 1000px;
+        }
+        
+        .key-term {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        
+        .scripture-ref {
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        
+        .latin-text {
+            font-style: italic;
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800 mb-4">Apostles' Creed Explorer</h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">A minimalist deep dive into the historical, biblical, theological, and practical dimensions of each clause</p>
+        </div>
+
+        <!-- Creed Overview -->
+        <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-slate-800 mb-4 flex items-center">
+                <span class="mr-3">📜</span>
+                The Apostles' Creed
+            </h2>
+            <div class="prose prose-lg text-slate-700 leading-relaxed">
+                <p class="italic">I believe in God, the Father almighty, creator of heaven and earth. And in Jesus Christ, his only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died, and was buried. He descended into hell. On the third day he rose again from the dead. He ascended into heaven, and is seated at the right hand of God the Father almighty. From there he will come to judge the living and the dead. I believe in the Holy Spirit, the holy catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and the life everlasting. Amen.</p>
+            </div>
+        </div>
+
+        <!-- Clause Explorer -->
+        <div id="clauseContainer" class="space-y-6">
+            <!-- Clauses will be dynamically generated here -->
+        </div>
+
+        <!-- Resources Section -->
+        <div class="mt-16 bg-white rounded-lg shadow-sm border border-slate-200 p-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center">
+                <span class="mr-3">📚</span>
+                Resources for Further Study
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Books & Commentaries -->
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                        <span class="mr-2">📖</span>
+                        Essential Books
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-blue-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">"I Believe" by Alister McGrath</h4>
+                            <p class="text-sm text-slate-600">Comprehensive exploration of the Apostles' Creed for modern readers</p>
+                        </div>
+                        <div class="border-l-4 border-blue-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">"The Creed" by Luke Timothy Johnson</h4>
+                            <p class="text-sm text-slate-600">Scholarly yet accessible commentary on each clause</p>
+                        </div>
+                        <div class="border-l-4 border-blue-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">"Simply Christian" by N.T. Wright</h4>
+                            <p class="text-sm text-slate-600">Foundational Christian beliefs explained clearly</p>
+                        </div>
+                        <div class="border-l-4 border-blue-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">"The Faith" by Charles Colson</h4>
+                            <p class="text-sm text-slate-600">What Christians believe, why they believe it, and why it matters</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Resources -->
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                        <span class="mr-2">🌐</span>
+                        Online Resources
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-green-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Bible Gateway</h4>
+                            <p class="text-sm text-slate-600">Multiple translations and commentaries for scripture references</p>
+                        </div>
+                        <div class="border-l-4 border-green-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Christian History Institute</h4>
+                            <p class="text-sm text-slate-600">Historical context and development of early creeds</p>
+                        </div>
+                        <div class="border-l-4 border-green-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Ligonier Ministries</h4>
+                            <p class="text-sm text-slate-600">Reformed theological resources and study guides</p>
+                        </div>
+                        <div class="border-l-4 border-green-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Ancient Faith Radio</h4>
+                            <p class="text-sm text-slate-600">Podcasts on early church history and theology</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Tools -->
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                        <span class="mr-2">🔍</span>
+                        Study Tools
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-purple-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Strong's Concordance</h4>
+                            <p class="text-sm text-slate-600">Greek and Hebrew word studies for key theological terms</p>
+                        </div>
+                        <div class="border-l-4 border-purple-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Logos Bible Software</h4>
+                            <p class="text-sm text-slate-600">Digital library with commentaries and theological resources</p>
+                        </div>
+                        <div class="border-l-4 border-purple-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Blue Letter Bible</h4>
+                            <p class="text-sm text-slate-600">Free online Bible study tools and commentaries</p>
+                        </div>
+                        <div class="border-l-4 border-purple-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">ESV Study Bible</h4>
+                            <p class="text-sm text-slate-600">Comprehensive notes and cross-references</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Historical Sources -->
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                        <span class="mr-2">🏛️</span>
+                        Historical Sources
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-amber-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Early Church Fathers</h4>
+                            <p class="text-sm text-slate-600">Writings of Augustine, Athanasius, and other church fathers</p>
+                        </div>
+                        <div class="border-l-4 border-amber-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Nicene and Post-Nicene Fathers</h4>
+                            <p class="text-sm text-slate-600">Complete collection available online at CCEL</p>
+                        </div>
+                        <div class="border-l-4 border-amber-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">The Didache</h4>
+                            <p class="text-sm text-slate-600">Early Christian teaching document (c. 50-120 AD)</p>
+                        </div>
+                        <div class="border-l-4 border-amber-200 pl-4">
+                            <h4 class="font-semibold text-slate-800">Council Documents</h4>
+                            <p class="text-sm text-slate-600">Records from Nicaea, Constantinople, and other councils</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Suggestions -->
+            <div class="mt-8 bg-slate-50 rounded-lg p-6">
+                <h3 class="text-xl font-semibold text-slate-700 mb-4 flex items-center">
+                    <span class="mr-2">💡</span>
+                    Study Suggestions
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-slate-800 mb-2">Personal Study</h4>
+                        <ul class="space-y-1 text-slate-600">
+                            <li class="flex items-start"><span class="mr-2 text-blue-500">•</span>Memorize one clause per week</li>
+                            <li class="flex items-start"><span class="mr-2 text-blue-500">•</span>Journal responses to reflection questions</li>
+                            <li class="flex items-start"><span class="mr-2 text-blue-500">•</span>Study supporting scriptures in context</li>
+                            <li class="flex items-start"><span class="mr-2 text-blue-500">•</span>Research historical heresies addressed</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-slate-800 mb-2">Group Study</h4>
+                        <ul class="space-y-1 text-slate-600">
+                            <li class="flex items-start"><span class="mr-2 text-green-500">•</span>Discuss one clause per session</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">•</span>Share personal applications</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">•</span>Compare different translations</li>
+                            <li class="flex items-start"><span class="mr-2 text-green-500">•</span>Explore denominational perspectives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Citation -->
+            <div class="mt-6 pt-6 border-t border-slate-200 text-center">
+                <p class="text-sm text-slate-500 italic">
+                    "The Apostles' Creed has been the foundation of Christian faith for nearly two millennia, 
+                    connecting believers across time, culture, and denomination in the essential truths of the Gospel."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clauses = [
+            {
+                id: 1,
+                text: "I believe in God, the Father almighty, creator of heaven and earth.",
+                latin: "Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae.",
+                keyTerms: ["Almighty", "Creator", "Father"],
+                scripture: [
+                    { ref: "Genesis 1:1", text: "In the beginning God created the heavens and the earth." },
+                    { ref: "Isaiah 44:6", text: "I am the first and I am the last; apart from me there is no God." },
+                    { ref: "Matthew 28:19", text: "Go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit." }
+                ],
+                history: "Found in the Old Roman Creed (c. 200 AD), this opening clause countered polytheism and Gnostic dualism that denied God's role as Creator of the material world.",
+                theology: [
+                    "Affirms monotheism against pagan polytheism",
+                    "Establishes God as sovereign Creator, not distant deity",
+                    "Father as relational term, not merely functional"
+                ],
+                reflection: {
+                    application: "Shapes our understanding of work as co-creation with God and calls us to environmental stewardship.",
+                    questions: [
+                        "How does God as Creator shape your view of work and stewardship?",
+                        "What does calling God 'Father' mean for your relationship with Him?"
+                    ]
+                }
+            },
+            {
+                id: 2,
+                text: "And in Jesus Christ, his only Son, our Lord",
+                latin: "Et in Iesum Christum, Filium eius unicum, Dominum nostrum",
+                keyTerms: ["Only Son", "Lord"],
+                scripture: [
+                    { ref: "John 1:14", text: "The Word became flesh and made his dwelling among us." },
+                    { ref: "Philippians 2:9-11", text: "God exalted him to the highest place and gave him the name that is above every name." },
+                    { ref: "Romans 10:9", text: "If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved." }
+                ],
+                history: "Affirmed against Arianism, which taught Christ was a created being. The term 'Lord' (Kyrios) was used of Caesar, making this a bold political and theological statement.",
+                theology: [
+                    "Christ's unique divine sonship, not adoptive",
+                    "Lordship encompasses authority over all creation",
+                    "Guards against subordinationism and adoptionism"
+                ],
+                reflection: {
+                    application: "Acknowledging Jesus as Lord impacts every area of life, from personal decisions to social justice.",
+                    questions: [
+                        "How does acknowledging Jesus as Lord impact obedience and worship?",
+                        "What areas of life resist Christ's lordship?"
+                    ]
+                }
+            },
+            {
+                id: 3,
+                text: "Who was conceived by the Holy Spirit, born of the Virgin Mary",
+                latin: "Qui conceptus est de Spiritu Sancto, natus ex Maria Virgine",
+                keyTerms: ["Conceived", "Virgin"],
+                scripture: [
+                    { ref: "Luke 1:35", text: "The Holy Spirit will come on you, and the power of the Most High will overshadow you." },
+                    { ref: "Matthew 1:23", text: "The virgin will conceive and give birth to a son, and they will call him Immanuel." },
+                    { ref: "Galatians 4:4", text: "When the set time had fully come, God sent his Son, born of a woman." }
+                ],
+                history: "Affirmed against docetism (Christ only appeared human) and adoptionism (Christ became divine at baptism). The virgin birth ensures Christ's divine nature while affirming true humanity.",
+                theology: [
+                    "Christ is fully God and fully human (hypostatic union)",
+                    "Miraculous conception preserves sinlessness",
+                    "Mary's role as Theotokos (God-bearer)"
+                ],
+                reflection: {
+                    application: "The incarnation reveals God's willingness to enter fully into human experience, including suffering.",
+                    questions: [
+                        "What does the incarnation reveal about God's engagement with creation?",
+                        "How does Christ's full humanity encourage you in struggles?"
+                    ]
+                }
+            },
+            {
+                id: 4,
+                text: "Suffered under Pontius Pilate; was crucified, died, and was buried",
+                latin: "Passus sub Pontio Pilato, crucifixus, mortuus, et sepultus",
+                keyTerms: ["Crucified", "Died", "Buried"],
+                scripture: [
+                    { ref: "Mark 15:25", text: "It was nine in the morning when they crucified him." },
+                    { ref: "1 Corinthians 15:3", text: "Christ died for our sins according to the Scriptures." },
+                    { ref: "Isaiah 53:5", text: "He was pierced for our transgressions, he was crushed for our iniquities." }
+                ],
+                history: "Grounded in Roman historical context with Pontius Pilate (26-36 AD). Affirms real death against docetic claims that Christ only appeared to suffer.",
+                theology: [
+                    "Real suffering ensures real atonement",
+                    "Historical grounding prevents mythologizing",
+                    "Substitutionary atonement for human sin"
+                ],
+                reflection: {
+                    application: "Christ's suffering validates our own pain and demonstrates the cost of redemption.",
+                    questions: [
+                        "How does Christ's suffering shape your understanding of God's love?",
+                        "What comfort does Christ's suffering offer in your trials?"
+                    ]
+                }
+            },
+            {
+                id: 5,
+                text: "He descended into hell; on the third day he rose again from the dead",
+                latin: "Descendit ad inferos; tertia die resurrexit a mortuis",
+                keyTerms: ["Descended", "Resurrection"],
+                scripture: [
+                    { ref: "1 Peter 3:19", text: "He went and made proclamation to the imprisoned spirits." },
+                    { ref: "Acts 2:31", text: "He was not abandoned to the realm of the dead, nor did his body see decay." },
+                    { ref: "1 Corinthians 15:4", text: "He was buried, and he was raised on the third day according to the Scriptures." }
+                ],
+                history: "The 'descended into hell' clause was a later Western addition (4th-5th century). Interpretations vary: victory proclamation, liberation of righteous dead, or complete experience of death.",
+                theology: [
+                    "Christ's victory over death and Satan",
+                    "Assurance of bodily resurrection for believers",
+                    "Completion of Christ's humiliation before exaltation"
+                ],
+                reflection: {
+                    application: "The resurrection provides hope that transcends death and validates Christian faith.",
+                    questions: [
+                        "How does the resurrection affect hope in life and death?",
+                        "What does Christ's victory over death mean for daily living?"
+                    ]
+                }
+            },
+            {
+                id: 6,
+                text: "He ascended into heaven, and is seated at the right hand of God the Father almighty",
+                latin: "Ascendit ad caelos, sedet ad dexteram Dei Patris omnipotentis",
+                keyTerms: ["Ascended", "Right hand"],
+                scripture: [
+                    { ref: "Acts 1:9", text: "He was taken up before their very eyes, and a cloud hid him from their sight." },
+                    { ref: "Hebrews 1:3", text: "After he had provided purification for sins, he sat down at the right hand of the Majesty in heaven." },
+                    { ref: "Ephesians 1:20-21", text: "He raised Christ from the dead and seated him at his right hand in the heavenly realms." }
+                ],
+                history: "Early creedal formulations affirmed Christ's exaltation against those who denied his ongoing divine authority after resurrection.",
+                theology: [
+                    "Christ's ongoing lordship and authority",
+                    "Intercession for believers (Romans 8:34)",
+                    "Preparation of place for believers (John 14:2-3)"
+                ],
+                reflection: {
+                    application: "Christ's ascension shapes prayer life, knowing we have an advocate with the Father.",
+                    questions: [
+                        "How does Christ's ascension shape prayer and worship life?",
+                        "What comfort comes from Christ's ongoing intercession?"
+                    ]
+                }
+            },
+            {
+                id: 7,
+                text: "From there he will come to judge the living and the dead",
+                latin: "Inde venturus est iudicare vivos et mortuos",
+                keyTerms: ["Judge", "Living and dead"],
+                scripture: [
+                    { ref: "Acts 10:42", text: "He commanded us to preach to the people and to testify that he is the one whom God appointed as judge of the living and the dead." },
+                    { ref: "2 Timothy 4:1", text: "Christ Jesus, who will judge the living and the dead." },
+                    { ref: "Matthew 25:31-32", text: "When the Son of Man comes in his glory... he will separate the people one from another." }
+                ],
+                history: "Creedal statement against denial of final judgment. Early Church eschatology emphasized both comfort for persecuted believers and accountability for persecutors.",
+                theology: [
+                    "Christ as righteous judge ensures justice",
+                    "Universal accountability before God",
+                    "Eschatological hope for vindication of righteousness"
+                ],
+                reflection: {
+                    application: "Belief in Christ's judgment motivates holy living and evangelistic urgency.",
+                    questions: [
+                        "How does belief in Christ's judgment affect daily choices?",
+                        "What hope does divine justice provide for injustice in the world?"
+                    ]
+                }
+            },
+            {
+                id: 8,
+                text: "I believe in the Holy Spirit",
+                latin: "Credo in Spiritum Sanctum",
+                keyTerms: ["Holy Spirit"],
+                scripture: [
+                    { ref: "John 14:26", text: "The Advocate, the Holy Spirit, whom the Father will send in my name, will teach you all things." },
+                    { ref: "Acts 2:4", text: "All of them were filled with the Holy Spirit and began to speak in other tongues." },
+                    { ref: "1 Corinthians 12:13", text: "We were all baptized by one Spirit so as to form one body." }
+                ],
+                history: "Developed against pneumatomachi (Spirit-fighters) who denied the Spirit's divinity. Affirmed at Constantinople (381 AD) as 'Lord and Giver of Life.'",
+                theology: [
+                    "Third person of Trinity, fully divine",
+                    "Agent of sanctification and spiritual gifts",
+                    "Unites believers into one body"
+                ],
+                reflection: {
+                    application: "The Spirit empowers Christian living and ministry, providing guidance and comfort.",
+                    questions: [
+                        "How do you experience the Holy Spirit's presence and guidance?",
+                        "What role does the Spirit play in your spiritual growth?"
+                    ]
+                }
+            },
+            {
+                id: 9,
+                text: "The holy catholic Church, the communion of saints",
+                latin: "Sanctam Ecclesiam catholicam, sanctorum communionem",
+                keyTerms: ["Catholic", "Communion"],
+                scripture: [
+                    { ref: "Ephesians 4:4-6", text: "There is one body and one Spirit... one Lord, one faith, one baptism." },
+                    { ref: "1 Corinthians 12:27", text: "Now you are the body of Christ, and each one of you is a part of it." },
+                    { ref: "Hebrews 12:1", text: "We are surrounded by such a great cloud of witnesses." }
+                ],
+                history: "'Catholic' means universal, not Roman Catholic specifically. Affirmed against Donatist schism that claimed only pure churches were valid.",
+                theology: [
+                    "Universal church transcends denominations",
+                    "Communion includes living and departed saints",
+                    "Unity in diversity of the body of Christ"
+                ],
+                reflection: {
+                    application: "Church membership involves both local commitment and global Christian unity.",
+                    questions: [
+                        "How do you participate in the universal Church?",
+                        "What does communion with saints mean for Christian fellowship?"
+                    ]
+                }
+            },
+            {
+                id: 10,
+                text: "The forgiveness of sins",
+                latin: "Remissionem peccatorum",
+                keyTerms: ["Forgiveness"],
+                scripture: [
+                    { ref: "1 John 1:9", text: "If we confess our sins, he is faithful and just and will forgive us our sins." },
+                    { ref: "Ephesians 1:7", text: "In him we have redemption through his blood, the forgiveness of sins." },
+                    { ref: "Matthew 6:14-15", text: "If you forgive other people when they sin against you, your heavenly Father will also forgive you." }
+                ],
+                history: "Affirmed against Novatianism, which denied forgiveness for serious post-baptismal sins. Emphasized God's ongoing mercy.",
+                theology: [
+                    "Complete forgiveness through Christ's atonement",
+                    "Ongoing forgiveness for believers",
+                    "Basis for forgiving others"
+                ],
+                reflection: {
+                    application: "Divine forgiveness transforms relationships and enables moral renewal.",
+                    questions: [
+                        "How does experiencing God's forgiveness change how you treat others?",
+                        "What sins do you struggle to believe are truly forgiven?"
+                    ]
+                }
+            },
+            {
+                id: 11,
+                text: "The resurrection of the body, and the life everlasting. Amen.",
+                latin: "Carnis resurrectionem, et vitam aeternam. Amen.",
+                keyTerms: ["Resurrection", "Everlasting"],
+                scripture: [
+                    { ref: "1 Corinthians 15:42-44", text: "The body that is sown is perishable, it is raised imperishable." },
+                    { ref: "John 11:25", text: "I am the resurrection and the life. The one who believes in me will live, even though they die." },
+                    { ref: "Revelation 21:4", text: "There will be no more death or mourning or crying or pain." }
+                ],
+                history: "Affirmed against Greek philosophical dualism that viewed the body as prison of the soul. Emphasized Hebrew understanding of embodied existence.",
+                theology: [
+                    "Bodily resurrection, not just spiritual immortality",
+                    "Continuity and transformation of identity",
+                    "Eternal life begins now, consummated later"
+                ],
+                reflection: {
+                    application: "Hope of resurrection gives meaning to present embodied existence and suffering.",
+                    questions: [
+                        "How does belief in bodily resurrection affect how you treat your body?",
+                        "What does 'life everlasting' mean beyond just duration?"
+                    ]
+                }
+            }
+        ];
+
+        function highlightKeyTerms(text, terms) {
+            let highlightedText = text;
+            terms.forEach(term => {
+                const regex = new RegExp(`\\b${term}\\b`, 'gi');
+                highlightedText = highlightedText.replace(regex, `<span class="key-term">${term}</span>`);
+            });
+            return highlightedText;
+        }
+
+        function toggleSection(clauseId, sectionType) {
+            const content = document.getElementById(`${sectionType}-${clauseId}`);
+            const icon = document.getElementById(`${sectionType}-icon-${clauseId}`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.textContent = '+';
+            } else {
+                content.classList.add('expanded');
+                icon.textContent = '−';
+            }
+        }
+
+        function toggleClause(clauseId) {
+            const content = document.getElementById(`clause-content-${clauseId}`);
+            const icon = document.getElementById(`clause-icon-${clauseId}`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.textContent = '+';
+            } else {
+                content.classList.add('expanded');
+                icon.textContent = '−';
+            }
+        }
+
+        function renderClauses() {
+            const container = document.getElementById('clauseContainer');
+            
+            clauses.forEach(clause => {
+                const clauseDiv = document.createElement('div');
+                clauseDiv.className = 'clause-card bg-white rounded-lg shadow-sm border border-slate-200';
+                
+                clauseDiv.innerHTML = `
+                    <!-- Clause Header (Always Visible) -->
+                    <button onclick="toggleClause(${clause.id})" 
+                            class="w-full text-left p-6 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-slate-800 mb-2">
+                                ${highlightKeyTerms(clause.text, clause.keyTerms)}
+                            </h3>
+                            <p class="latin-text">${clause.latin}</p>
+                        </div>
+                        <span id="clause-icon-${clause.id}" class="text-2xl text-slate-400 ml-4">+</span>
+                    </button>
+
+                    <!-- Clause Content (Collapsible) -->
+                    <div id="clause-content-${clause.id}" class="section-content">
+                        <div class="px-6 pb-6">
+
+                    <!-- Scripture Section -->
+                    <div class="mb-4">
+                        <button onclick="toggleSection(${clause.id}, 'scripture')" 
+                                class="flex items-center justify-between w-full text-left font-semibold text-slate-700 hover:text-slate-900 transition-colors">
+                            <span class="flex items-center">
+                                <span class="mr-2">📖</span>
+                                Biblical Foundation
+                            </span>
+                            <span id="scripture-icon-${clause.id}" class="text-lg">+</span>
+                        </button>
+                        <div id="scripture-${clause.id}" class="section-content mt-3">
+                            <div class="space-y-2 pl-6">
+                                ${clause.scripture.map(s => `
+                                    <div class="border-l-2 border-purple-200 pl-3">
+                                        <span class="scripture-ref font-semibold">${s.ref}:</span>
+                                        <span class="text-slate-600 italic"> "${s.text}"</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Historical Context Section -->
+                    <div class="mb-4">
+                        <button onclick="toggleSection(${clause.id}, 'history')" 
+                                class="flex items-center justify-between w-full text-left font-semibold text-slate-700 hover:text-slate-900 transition-colors">
+                            <span class="flex items-center">
+                                <span class="mr-2">🏛️</span>
+                                Historical Context
+                            </span>
+                            <span id="history-icon-${clause.id}" class="text-lg">+</span>
+                        </button>
+                        <div id="history-${clause.id}" class="section-content mt-3">
+                            <div class="pl-6 text-slate-600">
+                                ${clause.history}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theological Significance Section -->
+                    <div class="mb-4">
+                        <button onclick="toggleSection(${clause.id}, 'theology')" 
+                                class="flex items-center justify-between w-full text-left font-semibold text-slate-700 hover:text-slate-900 transition-colors">
+                            <span class="flex items-center">
+                                <span class="mr-2">⛪</span>
+                                Theological Significance
+                            </span>
+                            <span id="theology-icon-${clause.id}" class="text-lg">+</span>
+                        </button>
+                        <div id="theology-${clause.id}" class="section-content mt-3">
+                            <div class="pl-6">
+                                <ul class="space-y-1 text-slate-600">
+                                    ${clause.theology.map(point => `<li class="flex items-start"><span class="mr-2 text-purple-500">•</span>${point}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contemporary Reflection Section -->
+                    <div class="mb-4">
+                        <button onclick="toggleSection(${clause.id}, 'reflection')" 
+                                class="flex items-center justify-between w-full text-left font-semibold text-slate-700 hover:text-slate-900 transition-colors">
+                            <span class="flex items-center">
+                                <span class="mr-2">💭</span>
+                                Contemporary Application
+                            </span>
+                            <span id="reflection-icon-${clause.id}" class="text-lg">+</span>
+                        </button>
+                        <div id="reflection-${clause.id}" class="section-content mt-3">
+                            <div class="pl-6 space-y-3">
+                                <p class="text-slate-600">${clause.reflection.application}</p>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h5 class="font-semibold text-slate-700 mb-2">Reflection Questions:</h5>
+                                    <ul class="space-y-1">
+                                        ${clause.reflection.questions.map(q => `<li class="text-slate-600 flex items-start"><span class="mr-2 text-blue-500">?</span>${q}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(clauseDiv);
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', renderClauses);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'980154f1834953f2',t:'MTc1ODAzNTg1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
